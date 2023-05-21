@@ -20,3 +20,11 @@ export class SingupDto {
   @MinLength(5)
   password: string;
 }
+
+export class SigninDto {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  password: string;
+}
