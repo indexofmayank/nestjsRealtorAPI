@@ -12,10 +12,10 @@ datasource db {
 
 
 model User{
-  id         String @id @map("_id")
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
   name       String
   phone      String 
-  email      String 
+  email      String @unique
   password   String
   created_at DateTime @default(now()) 
   updated_at DateTime @updatedAt
@@ -26,7 +26,7 @@ model User{
 }
 
 model Home {
-  id        String @id @map("_id")
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
   address   String
   number_of_bedrooms Int
   number_of_bathrooms Float
@@ -37,29 +37,29 @@ model Home {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   propertyType PropertyType
-  realtor_id   String 
+  realtor_id   String @db.ObjectId
   realtor      User @relation(fields: [realtor_id], references: [id])
   message Message[]
   images Image[]
 }
 
 model Image {
-  id String @id @map("_id")
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   url  String
   create_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  home_id String
+  home_id String @db.ObjectId
   home Home @relation(fields: [home_id], references: [id])
 }
 
 model Message {
-  id String @id @map("_id")
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   message String  
-  home_id  String
+  home_id  String @db.ObjectId
   home Home @relation(fields: [home_id], references: [id])
-  realtor_id String 
+  realtor_id String @db.ObjectId
   realtor User @relation("realtor_messages", fields: [realtor_id], references: [id])
-  buyer_id String
+  buyer_id String @db.ObjectId
   buyer User @relation("buyer_messages", fields: [buyer_id], references: [id])
 
 }
